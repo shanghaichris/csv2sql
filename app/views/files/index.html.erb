@@ -17,28 +17,68 @@
 		</div>
 		<% end %>
 		
+		<!--header-->
 		
-		<small>if you have csv or excel file</small>
-		<h1>Upload CSV/Excel File</h1>
-		<%= form_tag '/upload', class: "well",multipart: true do %>
-		  <label for="file">File to Upload</label> <%= file_field_tag "file" %>
-		  <%= submit_tag "Upload",class: "btn btn-primary"  %>
-		<% end %>
+		<div class="hero-unit center">
+			<h1>
+				Now we have <%= @records_counter %> records!
+			</h1>
+		</div>
+		
+		
 		
 	</div>
-	
-	<div class="span2 center toptag">
-		<small>Now we have records</small>
-		<h1>
-			<%= @records_counter %>
-		</h1>
+
+</div>
+
+<div class="row">
+	<div class="tabbable span10">
+		<ul class="nav nav-tabs">
+		    <li class="active"><a href="#tab1" data-toggle="tab"><i class="icon-arrow-up"></i> Upload File</a></li>
+		    <li><a href="#tab2" data-toggle="tab"><i class="icon-th-list"></i> Files List</a></li>
+		</ul>
+		<div class="tab-content">
+		    <div class="tab-pane active" id="tab1">
+					<div class="">
+						<!--file upload-->
+						<div class="page-header">
+							<small>if you have csv or excel file</small>
+							<h1>Upload CSV/Excel File</h1>
+						</div>
+
+						<%= form_tag '/upload', class: "well",multipart: true do %>
+						  <label for="file">File to Upload</label> <%= file_field_tag "file" %>
+						  <%= submit_tag "Upload",class: "btn btn-primary"  %>
+						<% end %>
+					</div>
+					
+				
+						<%= link_to "Reset All Data",reset_path,class: "btn btn-danger",confirm: "This will delete all the data in database." %>
+						<%= link_to "Clear All Uploaded Files", reset_files_path,class: "btn btn-danger",confirm: "This will delete all the uploaded files" %>
+				
+					
+						<%= link_to chart_path,class: "btn btn-success pull-right" do %>
+							<i class="icon-white icon-signal"></i> View Charts
+						<% end %>
+				
+			</div>
+			<div class="tab-pane" id="tab2">
+			<!--file list-->
+				<div class="">
+					<h1>Files Uploaded:</h1>
+					<table class="table table-condensed ">
+					  	<% @dir.each do |f| %>
+							<% unless f=="." or f==".." %>
+								<tr><td><%= link_to f,"/upload/#{f}"  %></td></tr>
+							<% end %>
+						<% end %>
+					</table>
+				</div>
+			</div>
+		</div>
 	</div>
 	
 </div>
 
-<div class="row">
-	<div class="span12">
-		<%= link_to "Reset All Data",reset_path,class: "btn btn-danger",confirm: "This will delete all the data in database." %>
-		<%= link_to "Clear All Uploaded Files", reset_files_path,class: "btn btn-danger",confirm: "This will delete all the uploaded files" %>
-	</div>
-</div>
+
+

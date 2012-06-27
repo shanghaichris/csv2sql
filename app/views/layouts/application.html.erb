@@ -9,6 +9,11 @@
 <body>
 <div class="container">
 	<%= yield %>
+	<div class="span2 center toptag">
+		<a href="/" class="white" style="border-bottom:1px solid #e5e5e5"><i class="icon-white icon-home"></i> Back to Home</a>
+		<br/>
+		<%= yield :counter %>
+	</div>
 </div>
 
 

@@ -4,6 +4,8 @@ class FilesController < ApplicationController
   
   def index
     @records_counter = T_1.all.count
+    
+    @dir = Dir.open("#{Rails.root}/public/upload")
   end
   
   def upload
