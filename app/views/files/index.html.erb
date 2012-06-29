@@ -48,18 +48,12 @@
 
 						<%= form_tag '/upload', class: "well",multipart: true do %>
 						  <label for="file">File to Upload</label> <%= file_field_tag "file" %>
+						  <%= select_tag "file_type", "<option value='csv'>From Excel</option><option value='xls'>From Access</option>".html_safe%>
+						
 						  <%= submit_tag "Upload",class: "btn btn-primary"  %>
 						<% end %>
 					</div>
 					
-				
-						<%= link_to "Reset All Data",reset_path,class: "btn btn-danger",confirm: "This will delete all the data in database." %>
-						<%= link_to "Clear All Uploaded Files", reset_files_path,class: "btn btn-danger",confirm: "This will delete all the uploaded files" %>
-				
-					
-						<%= link_to chart_path,class: "btn btn-success pull-right" do %>
-							<i class="icon-white icon-signal"></i> View Charts
-						<% end %>
 				
 			</div>
 			<div class="tab-pane" id="tab2">
@@ -77,7 +71,36 @@
 			</div>
 		</div>
 	</div>
+	<div class="span3">
+		
+			<!--delete data-->
+			<div class="btn-group">
+			  <button class="btn">
+				<!--reset all the data-->
+			  	<%= link_to "Reset All Data",reset_path,confirm: "This will delete all the data in database." %>
+			  </button>
+			  <button class="btn dropdown-toggle" data-toggle="dropdown">
+			    <span class="caret"></span>
+			  </button>
+			  <ul class="dropdown-menu">
+			    <!-- recent added data -->
+				<li>
+					<%= link_to "Delete Last Record: " + @last_id.to_s,reset_path(@last_id),confirm: "This will delete 1 data which id is #{@last_id} in database." unless @last_id %>
+				</li>
+			  </ul>
+			</div>
+		</div>
+	<div class="span3">
+			<!--delete files-->
+			<%= link_to "Clear All Uploaded Files", reset_files_path,class: "btn btn-danger",confirm: "This will delete all the uploaded files" %>
 	
+	</div>
+	<div class="span4">	
+			<%= link_to chart_path,class: "btn btn-success pull-right" do %>
+				<i class="icon-white icon-signal"></i> View Charts
+			<% end %>
+	</div>
+	</div>
 </div>
 
 

@@ -54,7 +54,7 @@ Csv2sql::Application.routes.draw do
   
   match '/upload' => 'files#upload',as: :upload
   match '/result' => 'files#result',as: :result
-  match '/reset' => 'files#reset',as: :reset
+  match '/reset(/:o_id)' => 'files#reset',as: :reset
   match '/reset_files' => 'files#reset_files',as: :reset_files
   match '/charts' => 'charts#index',as: :chart
 
