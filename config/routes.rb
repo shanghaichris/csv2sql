@@ -1,4 +1,9 @@
 Csv2sql::Application.routes.draw do
+  
+  resources :questions do
+    resources :options
+  end
+
   get "charts/index"
 
   # The priority is based upon order of creation:
@@ -57,6 +62,7 @@ Csv2sql::Application.routes.draw do
   match '/reset(/:o_id)' => 'files#reset',as: :reset
   match '/reset_files' => 'files#reset_files',as: :reset_files
   match '/charts' => 'charts#index',as: :chart
+  match '/check_ids' => 'files#check_ids', as: :check_id
 
   # See how all your routes lay out with "rake routes"
 

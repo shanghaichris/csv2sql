@@ -44,7 +44,17 @@ class FilesController < ApplicationController
     redirect_to root_path
   end
   
-  def result
+  def check_ids
+    records_count = T_1.all.size
+    
+    @absent = []
+    (1..records_count).each do |current_id|
+      
+      unless T_1.find_by_o_id(current_id)
+        
+        @absent << current_id 
+      end
+    end
     
   end
 
@@ -92,6 +102,7 @@ private
             current_row = line.chomp.split(',')
               
             (2..current_row.size-1).each do |i|
+              unless current_row[i]==""
                question = current_row[i][0,2]  # got the question number
                #answer = current_row[i][2,2]    # got the answer number
                
@@ -104,11 +115,16 @@ private
                    record = T_3.find_or_create_by_o_id(current_row[0])
                  elsif "28,29,30,31,32,33,34,35,36".include? question
                    record = T_4.find_or_create_by_o_id(current_row[0])
+                 else
+                   next
                  end
                 #debugger
-                eval "record.o_#{current_row[i]} = true"  #set the answer to correct field
+                unless eval "record.o_#{current_row[i]} ==  true"
+                 eval "record.o_#{current_row[i]} = true"  #set the answer to correct field
                  record.area = current_row[1]
-                  record.save
+                 record.save
+                end
+              end
             end
            
             #end of each current_row

@@ -1,0 +1,23 @@
+<% if notice  %>
+<div class="alert alert-info" id="notice"><%= notice %></div>
+<% end  %>
+
+<div class="page-header">
+  <h1>Question <%= @question.id %>:
+  <%= @question.question %></h1>
+</div>
+
+<% if !@question.options.blank? %>
+<ul class="unstyled">
+  <% for option in @question.options %>
+    <li><%= option.option %> (<%= option.option_id %>) <%= link_to "Edit Option",edit_question_option_path(@question,option) %></li>
+  <% end %>
+</ul>
+<% else %>
+  
+<% end %>
+
+
+<%= link_to 'Add Options',new_question_option_path(@question),class: "btn btn-success" %>
+<%= link_to 'Edit Question', edit_question_path(@question),class: "btn btn-primary" %> 
+<%= link_to 'Back to questions list', questions_path %>

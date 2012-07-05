@@ -83,22 +83,27 @@
 			    <span class="caret"></span>
 			  </button>
 			  <ul class="dropdown-menu">
-			    <!-- recent added data -->
 				<li>
-					<%= link_to "Delete Last Record: " + @last_id.to_s,reset_path(@last_id),confirm: "This will delete 1 data which id is #{@last_id} in database." unless @last_id %>
+					<%#= link_to "Delete Last Record: " + @last_id.to_s,reset_path(@last_id),confirm: "This will delete 1 data which id is #{@last_id} in database." unless @last_id %>
+					<!--delete files-->
+					<%= link_to "Clear All Uploaded Files", reset_files_path,confirm: "This will delete all the uploaded files" %>
 				</li>
 			  </ul>
 			</div>
-		</div>
-	<div class="span3">
-			<!--delete files-->
-			<%= link_to "Clear All Uploaded Files", reset_files_path,class: "btn btn-danger",confirm: "This will delete all the uploaded files" %>
 	
 	</div>
-	<div class="span4">	
-			<%= link_to chart_path,class: "btn btn-success pull-right" do %>
+	<div class="span6">	
+				
+		
+			<%= link_to check_id_path,class: "btn" do %>
+				<i class="icon-check"></i> Check IDs
+			<% end %>
+			<%= link_to chart_path,class: "btn btn-success" do %>
 				<i class="icon-white icon-signal"></i> View Charts
 			<% end %>
+			<%= link_to questions_path,class: "btn btn-success" do %>
+				<i class="icon-white icon-wrench"></i> Manage the Questions & Options
+			<% end  %>
 	</div>
 	</div>
 </div>

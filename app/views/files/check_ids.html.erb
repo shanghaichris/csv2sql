@@ -1,0 +1,15 @@
+	<% if !@absent.blank? %>
+	<h1>We lost <%= @absent.size %> records.</h1>
+	<ul>
+	
+	  <% for a in @absent %>
+	    <li><%= a.to_s %></li>
+	  <% end %>
+		
+	</ul>
+	<% else %>
+	  <h1>
+	  	No absent!
+	  </h1>
+	<% end %>
+	

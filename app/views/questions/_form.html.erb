@@ -1,0 +1,29 @@
+<%= form_for(@question,html: {class: "form-horizontal"}) do |f| %>
+  <% if @question.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@question.errors.count, "error") %> prohibited this question from being saved:</h2>
+
+      <ul>
+      <% @question.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="control-group">
+    <%= f.label :question, class: "control-label" %>
+	<div class="controls">
+    	<%= f.text_field :question %>
+	</div>
+  </div>
+
+  <div class="control-group">
+  	<div class="controls">
+  		<%= f.check_box :multi_check %> Allow Multi-checked
+  	</div>
+  </div>
+  <div class="form-actions">
+    <%= f.submit class: "btn btn-primary" %>
+  </div>
+<% end %>
