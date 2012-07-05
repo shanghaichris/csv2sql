@@ -11,3 +11,32 @@
   </li>
   <li><a href="#">Combo Analysis</a></li>
 </ul>
+
+
+
+<%= select_tag "question", options_from_collection_for_select(Question.all, "id", "question"), :prompt => "Select a question" %>
+
+<script>
+	$(document).ready(function () 
+	{
+	    $("#question").change(function(){
+	        location.href="/charts/questions/"+this.options[this.selectedIndex].value;
+	    });
+	});
+</script>
+
+<% if @question %>
+	<h2>
+		<%= @question.question %>
+	</h2>
+
+	<% if !@question.options.blank? %>
+	  <% for option in @question.options %>
+		
+	    <%= option.option %>
+	  <% end %>
+	<% else %>
+  
+	<% end %>
+
+<% end %>

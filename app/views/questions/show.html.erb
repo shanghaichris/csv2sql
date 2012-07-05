@@ -9,7 +9,7 @@
 
 <% if !@question.options.blank? %>
 <ul class="unstyled">
-  <% for option in @question.options %>
+  <% for option in @question.options.order("option_id") %>
     <li><%= option.option %> (<%= option.option_id %>) <%= link_to "Edit Option",edit_question_option_path(@question,option) %></li>
   <% end %>
 </ul>
