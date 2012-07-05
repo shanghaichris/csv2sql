@@ -58,77 +58,82 @@
 	<% end %>
 	
 	<!--chart-->
-	
+	<div class="span12">
+		<%= link_to chart_path(@question,"column"),class: "btn btn-success" do %>
+			<i class="icon-white icon-signal"></i> Column
+		<% end %>
+		<%= link_to chart_path(@question,"pie"),class: "btn btn-success" do %>
+			<i class="icon-white icon-th-large"></i> Pie
+		<% end %>
+	</div>
 	<div id="container" class="span12" style="height: 400px"></div>
 
 	<script>
+		var chart_type = '<%= params[:chart_type]||="column" %>';
 		$(document).ready(function() {
-		      /**
-				 * Visualize an HTML table using Highcharts. The top (horizontal) header
-				 * is used for series names, and the left (vertical) header is used
-				 * for category names. This function is based on jQuery.
-				 * @param {Object} table The reference to the HTML table to visualize
-				 * @param {Object} options Highcharts options
-				 */
-				Highcharts.visualize = function(table, options) {
-					// the categories
-					options.xAxis.categories = [];
-					$('tbody th', table).each( function(i) {
-						options.xAxis.categories.push(this.innerHTML);
-					});
-
-					// the data series
-					options.series = [];
-					$('tr', table).each( function(i) {
-						var tr = this;
-						$('th, td', tr).each( function(j) {
-							if (j > 0) { // skip first column
-								if (i == 0) { // get the name and init the series
-									options.series[j - 1] = {
-										name: this.innerHTML,
-										data: []
-									};
-								} else { // add values
-									options.series[j - 1].data.push(parseFloat(this.innerHTML));
-								}
-							}
-						});
-					});
-
-					var chart = new Highcharts.Chart(options);
-				}
-
-				var table = document.getElementById('datatable'),
-				options = {
+		      chart = new Highcharts.Chart({
 					chart: {
 						renderTo: 'container',
-						type: 'column'
+						type: chart_type
 					},
 					title: {
 						text: '<%= @question.question %>'
 					},
-					xAxis: {
-						labels: {
-										rotation: 0,
-										align: 'center',
-										style: {
-											font: 'normal 13px Verdana, sans-serif'
+					<% if params[:chart_type]=="pie" %>
+						plotOptions: {
+									pie: {
+										allowPointSelect: true,
+										cursor: 'pointer',
+										dataLabels: {
+											enabled: true,
+											color: '#000000',
+											connectorColor: '#000000',
+											formatter: function() {
+												return '<b>'+ this.point.name +'</b>: '+ Highcharts.numberFormat(this.percentage, 1) +' %';
+											}
 										}
 									}
-					},
-					yAxis: {
-						title: {
-							text: 'Units'
-						}
-					},
-					tooltip: {
-						formatter: function() {
-							return this.y //+' '+ this.x.toLowerCase();
-						}
-					}
-				};
-
-				Highcharts.visualize(table, options);
+								},
+								series: [{
+											type: 'pie',
+											<% 
+												data = Hash.new
+												@question.options.each do |option| 
+													data[option.option]=@answers[option.option_id]
+												end
+											%>
+											data: <%= raw data.to_a %>
+										}]
+					<% else %>
+						xAxis: {
+										<% 
+												category = []
+												@question.options.each do |option| 
+													category << option.option
+												end
+										%>
+							categories: <%= raw category.to_a %>
+						},
+						yAxis: {
+							min: 0,
+							title: {
+								text: 'Rainfall (mm)'
+							}
+						},
+						
+						series: [{
+									type: 'column',
+									<% 
+										data = []
+										@question.options.each do |option| 
+											data << @answers[option.option_id]
+										end
+									%>
+									data: <%= raw data.to_a %>
+								}]
+					<% end %>
+					
+				});
 		   });
 	</script>
 
