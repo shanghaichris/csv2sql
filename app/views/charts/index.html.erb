@@ -31,12 +31,105 @@
 	</h2>
 
 	<% if !@question.options.blank? %>
-	  <% for option in @question.options %>
-		
-	    <%= option.option %>
-	  <% end %>
+		<table class="table">
+			<thead>
+				<tr>
+					<th></th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+			<% for option in @question.options %>
+				<tr>
+					<th>
+						<%= option.option %>
+					</th>
+					<td>
+						<%= @answers[option.option_id] %>
+					</td>
+				</tr>
+			    
+			  <% end %>
+			</tbody>
+		</table>
+	  
 	<% else %>
   
 	<% end %>
+	
+	<!--chart-->
+	
+	<div id="container" class="span12" style="height: 400px"></div>
+
+	<script>
+		$(document).ready(function() {
+		      /**
+				 * Visualize an HTML table using Highcharts. The top (horizontal) header
+				 * is used for series names, and the left (vertical) header is used
+				 * for category names. This function is based on jQuery.
+				 * @param {Object} table The reference to the HTML table to visualize
+				 * @param {Object} options Highcharts options
+				 */
+				Highcharts.visualize = function(table, options) {
+					// the categories
+					options.xAxis.categories = [];
+					$('tbody th', table).each( function(i) {
+						options.xAxis.categories.push(this.innerHTML);
+					});
+
+					// the data series
+					options.series = [];
+					$('tr', table).each( function(i) {
+						var tr = this;
+						$('th, td', tr).each( function(j) {
+							if (j > 0) { // skip first column
+								if (i == 0) { // get the name and init the series
+									options.series[j - 1] = {
+										name: this.innerHTML,
+										data: []
+									};
+								} else { // add values
+									options.series[j - 1].data.push(parseFloat(this.innerHTML));
+								}
+							}
+						});
+					});
+
+					var chart = new Highcharts.Chart(options);
+				}
+
+				var table = document.getElementById('datatable'),
+				options = {
+					chart: {
+						renderTo: 'container',
+						type: 'column'
+					},
+					title: {
+						text: '<%= @question.question %>'
+					},
+					xAxis: {
+						labels: {
+										rotation: 0,
+										align: 'center',
+										style: {
+											font: 'normal 13px Verdana, sans-serif'
+										}
+									}
+					},
+					yAxis: {
+						title: {
+							text: 'Units'
+						}
+					},
+					tooltip: {
+						formatter: function() {
+							return this.y //+' '+ this.x.toLowerCase();
+						}
+					}
+				};
+
+				Highcharts.visualize(table, options);
+		   });
+	</script>
 
 <% end %>
