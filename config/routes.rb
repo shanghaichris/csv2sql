@@ -62,7 +62,13 @@ Csv2sql::Application.routes.draw do
   match '/reset(/:o_id)' => 'files#reset',as: :reset
   match '/reset_files' => 'files#reset_files',as: :reset_files
   match '/charts(/questions/:question_id(/:chart_type))' => 'charts#index',as: :chart
+  match '/charts/life(/questions/:question_id(/:chart_type))' => 'charts#life',as: :chart_life
+  match '/charts/work(/questions/:question_id(/:chart_type))' => 'charts#work',as: :chart_work
+  match '/charts/venture(/questions/:question_id(/:chart_type))' => 'charts#venture',as: :chart_venture
   match '/check_ids' => 'files#check_ids', as: :check_id
+  
+  match '/get_options' => 'charts#get_options'
+  match '/add_series' => 'charts#add_series'
 
   # See how all your routes lay out with "rake routes"
 

@@ -1,0 +1,125 @@
+<div class="page-header">
+	<h1>Charts</h1>
+	
+</div>
+
+
+
+<ul class="nav nav-tabs">
+  <li>
+    <a href="/charts">Single Analysis</a>
+  </li>
+  <li  class="active"><a href="#"><i class="icon-shopping-cart"></i>About Life</a></li>
+<li><a href="#"><i class="icon-bookmark"></i>About Work</a></li>
+<li><a href="#"><i class="icon-cog"></i>About Venture & Development</a></li>
+</ul>
+
+<!--questions-->
+	<div class="row">
+		<div class="span4">
+
+			<%= select_tag "question", options_from_collection_for_select(@questions, "id", "question"), :prompt => "Select a question" %>
+
+			<script>
+				$(document).ready(function () 
+				{
+				    $("#question").change(function(){
+				        location.href="/charts/life/questions/"+this.options[this.selectedIndex].value;
+				    });
+				});
+			</script>
+		</div>
+		<div class="span4">	
+			<% if @question %>
+			<!--options-->
+			<a href="#" onClick="$('#more_option').slideDown();" class="btn btn-info"><i class="icon-plus-sign"></i> Add More Series...</a>
+			<% end %>
+		</div>
+	</div>
+
+<% if @question %>
+	
+
+	<% if !@question.options.blank? %>
+		
+		<div id="more_option" style="display:none" class="well">
+			<%= select_tag "series", options_from_collection_for_select(@series, "id", "question"), :prompt => "Select a series",onchange: "showOption(this.value,#{@question.id});" %>
+			
+			<!--checkbox for more option-->
+			<div id="more_series"></div>
+		</div>
+
+		<!--chart-->
+		<div class="row">
+			<div id="container" class="span12" style="height: 400px"></div>
+		</div>
+		
+		
+		<table class="table">
+			<thead>
+				<tr>
+					<th></th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+			<% for option in @question.options %>
+				<tr>
+					<th>
+						<%= option.option %>
+					</th>
+					<td>
+						<%= @answers[option.option_id] %>
+					</td>
+				</tr>
+			    
+			  <% end %>
+			</tbody>
+		</table>
+	  
+
+	<script>
+		var chart_type = '<%= params[:chart_type]||="column" %>'; //default is pie
+		$(document).ready(function() {
+		      chart = new Highcharts.Chart({
+					chart: {
+						renderTo: 'container',
+						type: chart_type
+					},
+					title: {
+						text: '<%= @question.question %>'
+					},
+					
+						xAxis: {
+										<% 
+												category = []
+												@question.options.each do |option| 
+													category << option.option
+												end
+										%>
+							categories: <%= raw category.to_a %>
+						},
+						yAxis: {
+							min: 0,
+							title: {
+								text: 'Numbers'
+							}
+						},
+						
+						series: [{
+									type: 'column',
+									name: 'Total',
+									<% 
+										data = []
+										@question.options.each do |option| 
+											data << @answers[option.option_id]
+										end
+									%>
+									data: <%= raw data.to_a %>
+								}]
+					
+				});
+		   });
+	</script>
+	<% end %>
+<% end %>

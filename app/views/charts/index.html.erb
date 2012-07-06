@@ -9,7 +9,9 @@
   <li class="active">
     <a href="#">Single Analysis</a>
   </li>
-  <li><a href="#">Combo Analysis</a></li>
+  <li><a href="/charts/life"><i class="icon-shopping-cart"></i>About Life</a></li>
+<li><a href="#"><i class="icon-bookmark"></i>About Work</a></li>
+<li><a href="#"><i class="icon-cog"></i>About Venture & Development</a></li>
 </ul>
 
 
@@ -69,7 +71,7 @@
 
 
 	<script>
-		var chart_type = '<%= params[:chart_type]||="pie" %>';
+		var chart_type = '<%= params[:chart_type]||="pie" %>'; //default is pie
 		$(document).ready(function() {
 		      chart = new Highcharts.Chart({
 					chart: {
@@ -117,12 +119,13 @@
 						yAxis: {
 							min: 0,
 							title: {
-								text: 'Rainfall (mm)'
+								text: 'Numbers'
 							}
 						},
 						
 						series: [{
 									type: 'column',
+									name: 'total',
 									<% 
 										data = []
 										@question.options.each do |option| 

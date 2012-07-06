@@ -1,0 +1,10 @@
+<%= form_tag("/add_series") do %>
+<%= hidden_field_tag "series_question",series_question_id  %>
+<%= hidden_field_tag "original_question",original_question_id %>
+<% @options.each do |option| %>
+	<%= check_box_tag "#{option.option_id}" %> <%= option.option %>
+<% end %>
+
+<%= submit_tag "Refresh Chart",class: "btn btn-primary" %>
+
+<% end %>
