@@ -1,6 +1,6 @@
 <div class="page-header">
 	<h1>Charts</h1>
-	<small>Analysis the data</small>
+	
 </div>
 
 
@@ -31,6 +31,17 @@
 	</h2>
 
 	<% if !@question.options.blank? %>
+		<!--chart-->
+		<div class="span12">
+			<%= link_to chart_path(@question,"column"),class: "btn btn-success" do %>
+				<i class="icon-white icon-signal"></i> Column
+			<% end %>
+			<%= link_to chart_path(@question,"pie"),class: "btn btn-success" do %>
+				<i class="icon-white icon-th-large"></i> Pie
+			<% end %>
+		</div>
+		<div id="container" class="span12" style="height: 400px"></div>
+		
 		<table class="table">
 			<thead>
 				<tr>
@@ -53,23 +64,12 @@
 			</tbody>
 		</table>
 	  
-	<% else %>
-  
-	<% end %>
+
 	
-	<!--chart-->
-	<div class="span12">
-		<%= link_to chart_path(@question,"column"),class: "btn btn-success" do %>
-			<i class="icon-white icon-signal"></i> Column
-		<% end %>
-		<%= link_to chart_path(@question,"pie"),class: "btn btn-success" do %>
-			<i class="icon-white icon-th-large"></i> Pie
-		<% end %>
-	</div>
-	<div id="container" class="span12" style="height: 400px"></div>
+
 
 	<script>
-		var chart_type = '<%= params[:chart_type]||="column" %>';
+		var chart_type = '<%= params[:chart_type]||="pie" %>';
 		$(document).ready(function() {
 		      chart = new Highcharts.Chart({
 					chart: {
@@ -136,5 +136,7 @@
 				});
 		   });
 	</script>
-
+	<% else %>
+  
+	<% end %>
 <% end %>

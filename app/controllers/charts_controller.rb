@@ -23,11 +23,11 @@ class ChartsController < ApplicationController
       question.options.each do |option|
         answers[option.option_id] = T_2.where("o_#{option.option_id} = ?",true).count
       end
-    when 18..27 
+    when 18..26 
       question.options.each do |option|
         answers[option.option_id] = T_3.where("o_#{option.option_id} = ?",true).count
       end
-    when 28..36 
+    when 27..36 
       question.options.each do |option|
         answers[option.option_id] = T_4.where("o_#{option.option_id} = ?",true).count
       end
