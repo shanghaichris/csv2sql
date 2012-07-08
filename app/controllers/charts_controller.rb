@@ -37,6 +37,10 @@ class ChartsController < ApplicationController
         @s["#{s_option.first}_name"] = Option.find_by_option_id(s_option.first).option  # for series name
         @s["#{s_option.first}_data"] = get_answers(@question,s_option.first)  #get etc. "0302" option as series
       end
+      
+      #@s:{"0302_name"=>"2 个", "0302_data"=>{"1001"=>395, ..."1002"=>581}, "0304_name"=>"4个", "0304_data"=>{"1001"=>395, ..."1002"=>581}}
+      
+      
     end
   end
   
