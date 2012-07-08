@@ -1,10 +1,12 @@
-<%= form_tag("/add_series") do %>
+<%= form_tag("/charts/life/questions/#{original_question_id}",method: :get) do %>
 <%= hidden_field_tag "series_question",series_question_id  %>
 <%= hidden_field_tag "original_question",original_question_id %>
 <% @options.each do |option| %>
-	<%= check_box_tag "#{option.option_id}" %> <%= option.option %>
+<label class="checkbox inline">
+	<%= check_box_tag "option[#{option.option_id}]" %> <%= option.option %>
+</label>
 <% end %>
 
-<%= submit_tag "Refresh Chart",class: "btn btn-primary" %>
+<%= submit_tag "Refresh Chart",class: "btn btn-primary pull-right" %>
 
 <% end %>

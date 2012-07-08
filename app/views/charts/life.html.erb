@@ -32,7 +32,7 @@
 		<div class="span4">	
 			<% if @question %>
 			<!--options-->
-			<a href="#" onClick="$('#more_option').slideDown();" class="btn btn-info"><i class="icon-plus-sign"></i> Add More Series...</a>
+			<a href="#" onClick="$('#more_option').slideToggle();" class="btn btn-info"><i class="icon-plus-sign"></i> Add More Series...</a>
 			<% end %>
 		</div>
 	</div>
@@ -54,7 +54,7 @@
 			<div id="container" class="span12" style="height: 400px"></div>
 		</div>
 		
-		
+		<% unless @has_series %>
 		<table class="table">
 			<thead>
 				<tr>
@@ -76,7 +76,7 @@
 			  <% end %>
 			</tbody>
 		</table>
-	  
+	  <% end %>
 
 	<script>
 		var chart_type = '<%= params[:chart_type]||="column" %>'; //default is pie
@@ -97,7 +97,14 @@
 													category << option.option
 												end
 										%>
-							categories: <%= raw category.to_a %>
+							categories: <%= raw category.to_a %>,
+							labels: {
+											rotation: -20,
+											align: 'right',
+											style: {
+												font: 'normal 13px Verdana, sans-serif'
+											}
+										}
 						},
 						yAxis: {
 							min: 0,
@@ -106,17 +113,23 @@
 							}
 						},
 						
-						series: [{
-									type: 'column',
-									name: 'Total',
-									<% 
-										data = []
-										@question.options.each do |option| 
-											data << @answers[option.option_id]
-										end
-									%>
-									data: <%= raw data.to_a %>
-								}]
+						series: [
+									<% if @has_series %>
+									<%# @s:{"0302_name"=>"2 个", "0302_data"=>{"1001"=>395, ..."1002"=>581}, "0304_name"=>"4个", "0304_data"=>{"1001"=>395, ..."1002"=>581}}
+									 %>
+									<% else %>
+									{
+										name: 'Total',
+										<% 
+											data = []
+											@question.options.each do |option| 
+												data << @answers[option.option_id]
+											end
+										%>
+										data: <%= raw data.to_a %>
+									}
+									<% end %>
+								]
 					
 				});
 		   });

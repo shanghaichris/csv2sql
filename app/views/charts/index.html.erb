@@ -114,7 +114,14 @@
 													category << option.option
 												end
 										%>
-							categories: <%= raw category.to_a %>
+							categories: <%= raw category.to_a %>,
+							labels: {
+											rotation: -20,
+											align: 'right',
+											style: {
+												font: 'normal 13px Verdana, sans-serif'
+											}
+										}
 						},
 						yAxis: {
 							min: 0,
