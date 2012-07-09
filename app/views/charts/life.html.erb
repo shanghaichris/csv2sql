@@ -123,7 +123,7 @@
 										name: 'Total',
 										<% 
 											data = []
-											@question.options.each do |option| 
+											@question.options.order('id').each do |option| 
 												data << @answers[option.option_id]
 											end
 										%>
