@@ -113,13 +113,13 @@
 							}
 						},
 						
-						series: [
-									<% if @has_series %>
-									<%# @s:{"0302_name"=>"2 个", "0302_data"=>{"1001"=>395, ..."1002"=>581}, "0304_name"=>"4个", "0304_data"=>{"1001"=>395, ..."1002"=>581}}
-										 
-									 %>
+						series: 
+									<% if @chart_option %>
+									<%= raw	@chart_option.to_json
+									%>
+									
 									<% else %>
-									{
+									[{
 										name: 'Total',
 										<% 
 											data = []
@@ -128,9 +128,9 @@
 											end
 										%>
 										data: <%= raw data.to_a %>
-									}
+									}]
 									<% end %>
-								]
+								
 					
 				});
 		   });
