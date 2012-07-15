@@ -9,9 +9,9 @@
   <li>
     <a href="/charts">Single Analysis</a>
   </li>
-  <li  class="active"><a href="#"><i class="icon-shopping-cart"></i>About Life</a></li>
-<li><a href="#"><i class="icon-bookmark"></i>About Work</a></li>
-<li><a href="#"><i class="icon-cog"></i>About Venture & Development</a></li>
+  <li <%= "class='active'" if @series_type=="life" %>><a href="<%= chart_series_path(series_type: "life") %>"><i class="icon-shopping-cart"></i>About Life</a></li>
+<li <%= "class='active'" if @series_type=="work" %>><a href="<%= chart_series_path(series_type: "work") %>"><i class="icon-bookmark"></i>About Work</a></li>
+<li <%= "class='active'" if @series_type=="venture" %>><a href="<%= chart_series_path(series_type: "venture") %>"><i class="icon-cog"></i>About Venture & Development</a></li>
 </ul>
 
 <!--questions-->
@@ -24,7 +24,7 @@
 				$(document).ready(function () 
 				{
 				    $("#question").change(function(){
-				        location.href="/charts/life/questions/"+this.options[this.selectedIndex].value;
+				        location.href="/charts/series/<%= params[:series_type] %>/questions/"+this.options[this.selectedIndex].value;
 				    });
 				});
 			</script>
@@ -43,7 +43,7 @@
 	<% if !@question.options.blank? %>
 		
 		<div id="more_option" style="display:none" class="well">
-			<%= select_tag "series", options_from_collection_for_select(@series, "id", "question"), :prompt => "Select a series",onchange: "showOption(this.value,#{@question.id});" %>
+			<%= select_tag "series", options_from_collection_for_select(@series, "id", "question"), :prompt => "Select a series",onchange: "showOption(this.value,#{@question.id},'#{@series_type}');" %>
 			
 			<!--checkbox for more option-->
 			<div id="more_series"></div>

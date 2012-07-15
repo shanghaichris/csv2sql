@@ -10,9 +10,19 @@ class ChartsController < ApplicationController
     end
   end
   
-  def life
-    @questions = Question.where(id: [7,9,10,11,12,13,14,15,16,17])
-    @series = Question.where(id: [1,2,3,4,5,6,8])
+  def series
+    @series_type = params[:series_type]
+    case @series_type
+    when "life"
+      @questions = Question.where(id: [7,9,10,11,12,13,14,15,16,17])
+      @series = Question.where(id: [1,2,3,4,5,6,8])
+    when "work"
+      @questions = Question.where(id: [18,20,21,22,23,24,25,26])
+      @series = Question.where(id: [1,2,3,4,5,6,19])
+    when "venture"
+      @questions = Question.where(id: [27,28,29,30,31,32,33,34,35,36])
+      @series = Question.where(id: [1,2,3,4,5,6,19])
+    end
     
     
     if params[:series_question]
@@ -53,7 +63,7 @@ class ChartsController < ApplicationController
   
   def get_options
     @options = Question.find(params[:series_question_id]).options
-    render :partial => "options", :object => @options,locals: {series_question_id: params[:series_question_id],original_question_id: params[:original_question_id]}
+    render :partial => "options", :object => @options,locals: {series_question_id: params[:series_question_id],original_question_id: params[:original_question_id],series_type: params[:series_type]}
   end
   
   

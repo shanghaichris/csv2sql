@@ -1,4 +1,5 @@
-<%= form_tag("/charts/life/questions/#{original_question_id}",method: :get) do %>
+<%# debugger %>
+<%= form_tag("/charts/series/#{series_type}/questions/#{original_question_id}",method: :get) do %>
 <%= hidden_field_tag "series_question",series_question_id  %>
 <%= hidden_field_tag "original_question",original_question_id %>
 <% @options.each do |option| %>
