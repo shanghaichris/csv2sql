@@ -14,7 +14,7 @@ class ChartsController < ApplicationController
     @series_type = params[:series_type]
     case @series_type
     when "life"
-      @questions = Question.where(id: [7,9,10,11,12,13,14,15,16,17])
+      @questions = Question.where(id: [1,2,3,4,5,7,9,10,11,12,13,14,15,16,17])
       @series = Question.where(id: [1,2,3,4,5,6,8])
     when "work"
       @questions = Question.where(id: [18,20,21,22,23,24,25,26])

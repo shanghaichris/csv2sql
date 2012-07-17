@@ -79,7 +79,7 @@
 	  <% end %>
 
 	<script>
-		var chart_type = '<%= params[:chart_type]||="column" %>'; //default is pie
+		var chart_type = '<%= params[:chart_type]||="spline" %>'; //default is pie
 		$(document).ready(function() {
 		      chart = new Highcharts.Chart({
 					chart: {
