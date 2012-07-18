@@ -12,6 +12,7 @@ class ChartsController < ApplicationController
   
   def series
     @series_type = params[:series_type]
+    @need_percent = params[:need_percent]
     case @series_type
     when "life"
       @questions = Question.where(id: [1,2,3,4,5,7,9,10,11,12,13,14,15,16,17])
@@ -115,7 +116,7 @@ class ChartsController < ApplicationController
     return table_question
   end
   
-  def  get_answers(question,s_option_id=nil)
+  def  get_answers(question,s_option_id=nil,need_percent=@need_percent)
     answers = Hash.new
     
     
@@ -135,7 +136,11 @@ class ChartsController < ApplicationController
       if s_option_id
         answers_with_option = get_option_count(table_question,table_option,option,s_option_id)  #get the option count
         
-        answers[option.option_id] = (answers_with_option.to_f/answer_option_count.to_f*100).round(2)   #got percent
+        if need_percent  #use the data of percent (%)
+          answers[option.option_id] = (answers_with_option.to_f/answer_option_count.to_f*100).round(2)    #got percent
+        else
+          answers[option.option_id] = answers_with_option.to_f.round(2)  #got absolute number
+        end
       else
         
         answers[option.option_id]  = eval "#{table_question}.where('o_#{option.option_id} = ?',true).count"

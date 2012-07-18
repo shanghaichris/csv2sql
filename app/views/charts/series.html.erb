@@ -79,7 +79,7 @@
 	  <% end %>
 
 	<script>
-		var chart_type = '<%= params[:chart_type]||="spline" %>'; //default is pie
+		var chart_type = '<%= params[:chart_type]||="spline" %>'; //default is spline
 		$(document).ready(function() {
 		      chart = new Highcharts.Chart({
 					chart: {
@@ -112,10 +112,22 @@
 								text: 'Numbers'
 							}
 						},
-						
+						plotOptions: {
+									spline: {
+										dataLabels: {
+											enabled: true
+										},
+										enableMouseTracking: true
+									},
+									column: {
+										dataLabels:{
+											enabled: true
+										}
+									}
+								},
 						series: 
 									<% if @chart_option %>
-									<%= raw	@chart_option.to_json
+										<%= raw	@chart_option.to_json
 									%>
 									
 									<% else %>
@@ -137,3 +149,16 @@
 	</script>
 	<% end %>
 <% end %>
+
+<!-- percent or number -->
+
+<% if params[:need_percent] %>
+	<%= link_to "Show Number",request.url.sub(/&need_percent=true/,''),class: "btn" %>
+<% else %>
+	<%= link_to "Show Percent",request.url+"&need_percent=true",class: "btn" %>
+<% end %>
+
+<%#= link_to "Pie",request.url+"&chart_type=pie",class: "btn btn-primary" %>
+<%= link_to "Column",request.url+"&chart_type=column",class: "btn btn-primary" %>
+<%= link_to "Spline", request.url+"&chart_type=spline",class: "btn btn-primary" %>
+
