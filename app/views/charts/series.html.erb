@@ -158,7 +158,8 @@
 	<%= link_to "Show Percent",request.url+"&need_percent=true",class: "btn" %>
 <% end %>
 
-<%#= link_to "Pie",request.url+"&chart_type=pie",class: "btn btn-primary" %>
-<%= link_to "Column",request.url+"&chart_type=column",class: "btn btn-primary" %>
-<%= link_to "Spline", request.url+"&chart_type=spline",class: "btn btn-primary" %>
-
+<% if params[:chart_type] == "column" %>
+	<%= link_to "Use Spline", request.url+"&chart_type=spline",class: "btn btn-primary" %>
+<% else %>
+	<%= link_to "User Column",request.url+"&chart_type=column",class: "btn btn-primary" %>
+<% end %>
