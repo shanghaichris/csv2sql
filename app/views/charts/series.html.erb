@@ -151,15 +151,18 @@
 <% end %>
 
 <!-- percent or number -->
+<% if @has_series %>
+	<% if params[:need_percent] %> 
+		Now it is using PERCENT (%),
+		<%= link_to "Show Number",request.url.sub(/&need_percent=true/,''),class: "btn" %>
+	<% else %>
+		Now it is using NUMBERS,
+		<%= link_to "Show Percent(%)",request.url+"&need_percent=true",class: "btn" %>
+	<% end %>
 
-<% if params[:need_percent] %>
-	<%= link_to "Show Number",request.url.sub(/&need_percent=true/,''),class: "btn" %>
-<% else %>
-	<%= link_to "Show Percent",request.url+"&need_percent=true",class: "btn" %>
-<% end %>
-
-<% if params[:chart_type] == "column" %>
-	<%= link_to "Use Spline", request.url+"&chart_type=spline",class: "btn btn-primary" %>
-<% else %>
-	<%= link_to "User Column",request.url+"&chart_type=column",class: "btn btn-primary" %>
+	<% if params[:chart_type] == "column" %>
+		<%= link_to "Use Spline", request.url+"&chart_type=spline",class: "btn btn-primary" %>
+	<% else %>
+		<%= link_to "User Column",request.url+"&chart_type=column",class: "btn btn-primary" %>
+	<% end %>
 <% end %>
